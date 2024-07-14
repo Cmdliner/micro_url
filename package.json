@@ -1,0 +1,22 @@
+{
+  "name": "micro_url",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch ./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tailwindcss": "^3.4.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "nanoid": "^5.0.7",
+    "redis": "^4.6.15"
+  }
+}
