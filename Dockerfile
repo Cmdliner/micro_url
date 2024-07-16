@@ -10,7 +10,6 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["bun", "run", "--env-file .env", "src/app.ts"]
-
+CMD ["bun", "run", "start"]
 
 
