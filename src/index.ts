@@ -1,42 +1,53 @@
 import express, { type Request, type Response } from 'express';
-import { nanoid } from 'nanoid';
-import redis from 'redis';
+import connectRedis, { redisClient } from './config/db';
+import { createMurl, decodeMurl } from './murl';
 
 const app = express();
-const redisClient = redis.createClient();
 
-app.use('/public', express.static('public'));
+redisClient.on('error', (error) => console.error(error));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(`${import.meta.dirname}/static`));
 
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-app.get('/healthz', (req: Request, res: Response) => res.send('Micro Url is up and running'));
+app.get('/healthz', (_req: Request, res: Response) => res.send('Micro Url is up and running'));
 
-app.get('/shorten', (req: Request, res: Response) => {
-    res.render('index');
-})
-app.post('/generate_url', async (req: Request, res: Response) => {
+app.get('/', (_req: Request, res: Response) => res.status(301).redirect('/shorten'));
+
+app.get('/shorten', (_req: Request, res: Response) => res.status(200).render('template'));
+
+app.post('/shorten', async (req: Request, res: Response) => {
+    const { original_url } = req.body;
     try {
-        const { original_url } = req.body;
-        const existing_short_url = await redisClient.get(original_url);
-
-        if(existing_short_url) {
-            return res.status(200).json({micro_url: `${req.headers.host}/${existing_short_url}`})
+        const murl = await createMurl(original_url);
+        if(murl) {
+            app.locals.murl = `${req.headers.host}/${murl.endpoint}`;
+            return res.render('index');
         }
-
-        const short_id = nanoid();
-        await redisClient.set(original_url!, short_id);
-
-        return res.status(200).json({short_url: `${req.headers.host}/${short_id}`});
-
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: (error as Error).message });
     }
 })
 
-app.listen(process.env.PORT, () => {
-    console.log(`App is listening on port ${process.env.PORT}`)
+app.get('/:microID', async (req: Request, res: Response) => {
+    const { microID } = req.params;
+    try {
+        const original_url = await decodeMurl(microID);
+        return res.status(301).redirect(`${original_url}`);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: (error as Error).message });
+    }
 })
+
+connectRedis()
+.then(() => {
+    app.listen(process.env.PORT, () => {
+        console.log(`App is listening on port ${process.env.PORT}`);
+    })
+})
+.catch((error) => console.error('Error: ', error))

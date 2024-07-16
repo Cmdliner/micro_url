@@ -6,8 +6,7 @@
     "dev": "bun --watch ./src/index.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "tailwindcss": "^3.4.4"
+    "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
