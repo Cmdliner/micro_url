@@ -3,7 +3,12 @@
 <%- include('head') %>
 <body>
     <div class="main-content">
-        <h1> <sup style="font-size: x-small;">(Micro)</sup>μURL</h1>
+
+        <% if (locals.error_message)  { %>
+            <div class="error_message">
+                <%= locals.error_message  %>
+            </div>
+        <% } %>
         <div class="container">
             <div class="logo">
                 <i class="fas fa-link"></i>
@@ -19,28 +24,9 @@
                     Shorten URL
                 </button>
             </form>
-            <% if (locals.murl) { %>
-                <div class="result">
-                    Shortened URL: <a href="<%= murl %>" target="_blank"><%= murl %></a>
-                    <button class="copy-btn" onclick="copyToClipboard('<%= murl %>')">
-                        <i class="fas fa-copy"></i>
-                        Copy
-                    </button>
-                </div>
-            <% } %>
         </div>
     </div>
 
     <%- include('Footer') %>
-
-    <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        }
-    </script>
 </body>
 </html>

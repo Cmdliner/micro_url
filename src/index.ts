@@ -17,7 +17,11 @@ app.get('/healthz', (_req: Request, res: Response) => res.send('Micro Url is up 
 
 app.get('/', (_req: Request, res: Response) => res.status(301).redirect('/shorten'));
 
-app.get('/shorten', (_req: Request, res: Response) => res.status(200).render('template'));
+app.get('/shorten', (_req: Request, res: Response) => {
+    res.locals.error_message = null;
+    res.status(200).render('index');
+});
+
 
 app.post('/shorten', async (req: Request, res: Response) => {
     const { original_url } = req.body;
@@ -25,11 +29,12 @@ app.post('/shorten', async (req: Request, res: Response) => {
         const murl = await createMurl(original_url);
         if(murl) {
             app.locals.murl = `${req.headers.host}/${murl.endpoint}`;
-            return res.render('index');
+            app.locals.error_message = null;
+            return res.render('murl');
         }
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: (error as Error).message });
+        res.locals.error_message = (error as Error).message;
+        res.render('index')
     }
 })
 
@@ -39,8 +44,8 @@ app.get('/:microID', async (req: Request, res: Response) => {
         const original_url = await decodeMurl(microID);
         return res.status(301).redirect(`${original_url}`);
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: (error as Error).message });
+        res.locals.error_message = (error as Error).message;
+        return res.render('murl')
     }
 })
 

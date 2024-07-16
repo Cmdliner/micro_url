@@ -9,6 +9,10 @@ export interface MurlObj {
 }
 
 export const createMurl = async (original_url: string): Promise<MurlObj | null> => {
+    
+    const valid_url = new URL(original_url) ? true : false; 
+    if(!valid_url) throw new Error('Invalid URL!');
+
     const murl_endpoint = nanoid();
     const murl_id = await redisClient.incr('murl:id');
 

@@ -28,6 +28,17 @@ body {
     display: flex;
     align-items: center;
 }
+
+.error_message {
+    padding: .5rem;
+    background-color: #ffffff;
+    color: red;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 2rem;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.2s forwards;
+}
 .container {
     background-color: #ffffff;
     border-radius: 12px;

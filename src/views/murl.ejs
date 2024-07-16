@@ -1,33 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>μrl - URL Shortener</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
-
-    <style>
-        
-    </style>
-</head>
+<%- include('head') %>
 <body>
+    <% if (locals.error_message) { %>
+        <div class="error_message">
+            <%= error_message %>
+        </div>
+    <% } %>
     <div class="main-content">
+        <h1> <sup style="font-size: x-small;">(Micro)</sup>μ-URL</h1>
         <div class="container">
             <div class="logo">
                 <i class="fas fa-link"></i>
                 <h1>μrl</h1>
             </div>
-            <form action="/shorten" method="POST">
-                <div class="input-group">
-                    <i class="fas fa-globe"></i>
-                    <input type="url" name="original_url" placeholder="Enter your URL here" required>
-                </div>
-                <button type="submit">
-                    <i class="fas fa-cut"></i>
-                    Shorten URL
-                </button>
-            </form>
             <% if (locals.murl) { %>
                 <div class="result">
                     Shortened URL: <a href="<%= murl %>" target="_blank"><%= murl %></a>
@@ -40,9 +26,7 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <p>&copy; 2024 μrl. All rights reserved. | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
-    </footer>
+    <%- include('Footer') %>
 
     <script>
         function copyToClipboard(text) {
