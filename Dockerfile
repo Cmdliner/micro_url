@@ -8,7 +8,7 @@ RUN bun install
 
 COPY . .
 
-EXPOSE PORT 4000
+EXPOSE 4000
 
 CMD ["bun", "run", "src/app.ts"]
 
