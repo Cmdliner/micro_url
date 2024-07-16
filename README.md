@@ -1,6 +1,6 @@
 # μrl (Micro url)
 
-Basic url shortener with express and Redis
+Basic url shortener with Express, Typescript, EJS and Redis
 
 To install dependencies:
 
@@ -21,11 +21,21 @@ This project was created using `bun init` in bun v1.1.15. [Bun](https://bun.sh) 
 .
 ├── bun.lockb
 ├── package.json
-├── public
 ├── README.md
 ├── src
-│   └── index.ts
+│   ├── config
+│   │   └── db.ts
+│   ├── index.ts
+│   ├── murl.ts
+│   ├── static
+│   │   ├── fonts
+│   │   └── styles.css
+│   └── views
+│       ├── Footer.ejs
+│       ├── head.ejs
+│       ├── index.ejs
+│       └── template.ejs
 └── tsconfig.json
 
-3 directories, 5 files
+6 directories, 12 files
 ```
