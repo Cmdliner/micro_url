@@ -54,6 +54,6 @@ app.get('/:microID', async (req: Request, res: Response) => {
     })
 connectRedis()
 .then(() => {
-    console.log('Redis Connected");
+    console.log("Redis Connected");
 })
 .catch((error) => console.error('Error: ', error))
