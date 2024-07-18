@@ -51,7 +51,7 @@ app.get('/:microID', async (req: Request, res: Response) => {
 
 connectRedis()
 .then(() => {
-    app.listen(process.env.PORT, () => {
+    app.listen(process.env.PORT || 4000, () => {
         console.log(`App is listening on port ${process.env.PORT}`);
     })
 })
