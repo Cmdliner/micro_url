@@ -1,4 +1,4 @@
-FROM oven/bun:latest
+FROM oven/bun
 
 WORKDIR /app
 
@@ -10,6 +10,6 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["bun", "run", "./src/index.ts"]
+CMD ["bun", "run", "start"]
 
 
