@@ -4,7 +4,7 @@ import { createMurl, decodeMurl } from './murl';
 
 const app = express();
 
-redisClient.on('error', (error) => console.error(error));
+//redisClient.on('error', (error) => console.error(error));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -49,10 +49,11 @@ app.get('/:microID', async (req: Request, res: Response) => {
     }
 })
 
-connectRedis()
-.then(() => {
     app.listen(process.env.PORT || 4000, () => {
         console.log(`App is listening on port ${process.env.PORT}`);
     })
+connectRedis()
+.then(() => {
+    console.log('Redis Connected");
 })
 .catch((error) => console.error('Error: ', error))
