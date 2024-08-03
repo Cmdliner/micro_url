@@ -16,7 +16,7 @@
             </div>
             <% if (locals.murl) { %>
                 <div class="result">
-                    Shortened URL: <a href="<%= murl %>" target="_blank"><%= murl %></a>
+                    <span style="width: 100%;"> Shortened URL: <a href="<%= murl %>" target="_blank"><%= murl %></a> </span>
                     <button class="copy-btn" onclick="copyToClipboard('<%= murl %>')">
                         <i class="fas fa-copy"></i>
                         Copy
